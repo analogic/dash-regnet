@@ -1,12 +1,18 @@
 #!/bin/bash
 
+while sleep 2; do
+    ADDRESS=`dash-cli -conf=/etc/conf/node-1/dash.conf getnewaddress shop`
+    [[ ! -z $ADDRESS ]] && break;
+    echo "* No address generated ($ADDRESS), continue waiting"
+done
+
 echo "* Generating coins..."
 sleep 2
 
 dash-cli -conf=/etc/conf/node-1/dash.conf generate 101 > /dev/null
 dash-cli -conf=/etc/conf/node-1/dash.conf generate 101 > /dev/null
 
-ADDRESS=`dash-cli -conf=/etc/conf/node-1/dash.conf getnewaddress shop`
+
 dash-cli -conf=/etc/conf/node-1/dash.conf sendtoaddress "$ADDRESS" 50
 
 echo "sent generated coins to $ADDRESS"
